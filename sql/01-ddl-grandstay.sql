@@ -139,3 +139,383 @@ create index idx_consumo_reserva on consumo_servicio(id_reserva);
 create index idx_consumo_fecha on consumo_servicio(fecha_consumo);
 
 create index idx_factura_estado_pago on factura_hotel(estado_pago);
+
+-- =============================================================================
+-- stored procedures: crud
+-- =============================================================================
+
+-- =============================================================================
+-- 1. crud: tipo_habitacion
+-- =============================================================================
+delimiter $$
+
+create procedure sp_insertartipohabitacion(
+    in _nombre_tipo varchar(60),
+    in _descripcion varchar(255),
+    in _capacidad_personas tinyint,
+    in _tarifa_noche decimal(10,2)
+)
+begin
+    insert into tipo_habitacion(nombre_tipo, descripcion, capacidad_personas, tarifa_noche)
+    values (_nombre_tipo, _descripcion, _capacidad_personas, _tarifa_noche);
+end $$
+
+create procedure sp_actualizartipohabitacion(
+    in _id_tipo_habitacion int,
+    in _nombre_tipo varchar(60),
+    in _descripcion varchar(255),
+    in _capacidad_personas tinyint,
+    in _tarifa_noche decimal(10,2)
+)
+begin
+    update tipo_habitacion
+    set nombre_tipo = _nombre_tipo,
+        descripcion = _descripcion,
+        capacidad_personas = _capacidad_personas,
+        tarifa_noche = _tarifa_noche
+    where id_tipo_habitacion = _id_tipo_habitacion;
+end $$
+
+create procedure sp_eliminartipohabitacion(
+    in _id_tipo_habitacion int
+)
+begin
+    delete from tipo_habitacion where id_tipo_habitacion = _id_tipo_habitacion;
+end $$
+
+delimiter ;
+
+-- =============================================================================
+-- 2. crud: habitacion
+-- =============================================================================
+delimiter $$
+
+create procedure sp_insertarhabitacion(
+    in _numero_habitacion varchar(10),
+    in _piso tinyint,
+    in _estado_habitacion varchar(20),
+    in _id_tipo_habitacion int
+)
+begin
+    insert into habitacion(numero_habitacion, piso, estado_habitacion, id_tipo_habitacion)
+    values (_numero_habitacion, _piso, _estado_habitacion, _id_tipo_habitacion);
+end $$
+
+create procedure sp_actualizarhabitacion(
+    in _id_habitacion int,
+    in _numero_habitacion varchar(10),
+    in _piso tinyint,
+    in _estado_habitacion varchar(20),
+    in _id_tipo_habitacion int
+)
+begin
+    update habitacion
+    set numero_habitacion = _numero_habitacion,
+        piso = _piso,
+        estado_habitacion = _estado_habitacion,
+        id_tipo_habitacion = _id_tipo_habitacion
+    where id_habitacion = _id_habitacion;
+end $$
+
+create procedure sp_eliminarhabitacion(
+    in _id_habitacion int
+)
+begin
+    delete from habitacion where id_habitacion = _id_habitacion;
+end $$
+
+delimiter ;
+
+-- =============================================================================
+-- 3. crud: huesped
+-- =============================================================================
+delimiter $$
+
+create procedure sp_insertarhuesped(
+    in _documento_identificacion varchar(20),
+    in _nombre_huesped varchar(100),
+    in _apellido_huesped varchar(100),
+    in _telefono_huesped varchar(15),
+    in _correo_electronico varchar(100),
+    in _nacionalidad varchar(60)
+)
+begin
+    insert into huesped(documento_identificacion, nombre_huesped, apellido_huesped, telefono_huesped, correo_electronico, nacionalidad)
+    values (_documento_identificacion, _nombre_huesped, _apellido_huesped, _telefono_huesped, _correo_electronico, _nacionalidad);
+end $$
+
+create procedure sp_actualizarhuesped(
+    in _id_huesped int,
+    in _documento_identificacion varchar(20),
+    in _nombre_huesped varchar(100),
+    in _apellido_huesped varchar(100),
+    in _telefono_huesped varchar(15),
+    in _correo_electronico varchar(100),
+    in _nacionalidad varchar(60)
+)
+begin
+    update huesped
+    set documento_identificacion = _documento_identificacion,
+        nombre_huesped = _nombre_huesped,
+        apellido_huesped = _apellido_huesped,
+        telefono_huesped = _telefono_huesped,
+        correo_electronico = _correo_electronico,
+        nacionalidad = _nacionalidad
+    where id_huesped = _id_huesped;
+end $$
+
+create procedure sp_eliminarhuesped(
+    in _id_huesped int
+)
+begin
+    delete from huesped where id_huesped = _id_huesped;
+end $$
+
+delimiter ;
+
+-- =============================================================================
+-- 4. crud: reserva
+-- =============================================================================
+delimiter $$
+
+create procedure sp_insertarreserva(
+    in _id_huesped int,
+    in _id_habitacion int,
+    in _fecha_entrada date,
+    in _fecha_salida date,
+    in _cantidad_huespedes tinyint,
+    in _tarifa_aplicada decimal(10,2),
+    in _deposito_previo decimal(10,2),
+    in _deposito_pagado boolean,
+    in _estado_reserva varchar(20)
+)
+begin
+    -- se omiten fecha_reserva, fecha_checkin y fecha_checkout
+    insert into reserva(id_huesped, id_habitacion, fecha_entrada, fecha_salida, cantidad_huespedes, tarifa_aplicada, deposito_previo, deposito_pagado, estado_reserva)
+    values (_id_huesped, _id_habitacion, _fecha_entrada, _fecha_salida, _cantidad_huespedes, _tarifa_aplicada, _deposito_previo, _deposito_pagado, _estado_reserva);
+end $$
+
+create procedure sp_actualizarreserva(
+    in _id_reserva int,
+    in _id_huesped int,
+    in _id_habitacion int,
+    in _fecha_entrada date,
+    in _fecha_salida date,
+    in _cantidad_huespedes tinyint,
+    in _tarifa_aplicada decimal(10,2),
+    in _deposito_previo decimal(10,2),
+    in _deposito_pagado boolean,
+    in _fecha_checkin datetime,
+    in _fecha_checkout datetime,
+    in _estado_reserva varchar(20)
+)
+begin
+    update reserva
+    set id_huesped = _id_huesped,
+        id_habitacion = _id_habitacion,
+        fecha_entrada = _fecha_entrada,
+        fecha_salida = _fecha_salida,
+        cantidad_huespedes = _cantidad_huespedes,
+        tarifa_aplicada = _tarifa_aplicada,
+        deposito_previo = _deposito_previo,
+        deposito_pagado = _deposito_pagado,
+        fecha_checkin = _fecha_checkin,
+        fecha_checkout = _fecha_checkout,
+        estado_reserva = _estado_reserva
+    where id_reserva = _id_reserva;
+end $$
+
+create procedure sp_eliminarreserva(
+    in _id_reserva int
+)
+begin
+    delete from reserva where id_reserva = _id_reserva;
+end $$
+
+delimiter ;
+
+-- =============================================================================
+-- 5. crud: consumo_servicio
+-- =============================================================================
+delimiter $$
+
+create procedure sp_insertarconsumoservicio(
+    in _id_reserva int,
+    in _tipo_servicio varchar(20),
+    in _descripcion varchar(100),
+    in _cantidad int,
+    in _precio_unitario decimal(8,2)
+)
+begin
+    -- se omite fecha_consumo para que tome el current_timestamp por defecto
+    insert into consumo_servicio(id_reserva, tipo_servicio, descripcion, cantidad, precio_unitario)
+    values (_id_reserva, _tipo_servicio, _descripcion, _cantidad, _precio_unitario);
+end $$
+
+create procedure sp_actualizarconsumoservicio(
+    in _id_consumo int,
+    in _id_reserva int,
+    in _tipo_servicio varchar(20),
+    in _descripcion varchar(100),
+    in _cantidad int,
+    in _precio_unitario decimal(8,2)
+)
+begin
+    update consumo_servicio
+    set id_reserva = _id_reserva,
+        tipo_servicio = _tipo_servicio,
+        descripcion = _descripcion,
+        cantidad = _cantidad,
+        precio_unitario = _precio_unitario
+    where id_consumo = _id_consumo;
+end $$
+
+create procedure sp_eliminarconsumoservicio(
+    in _id_consumo int
+)
+begin
+    delete from consumo_servicio where id_consumo = _id_consumo;
+end $$
+
+delimiter ;
+
+-- =============================================================================
+-- 6. crud: factura_hotel
+-- =============================================================================
+delimiter $$
+
+create procedure sp_insertarfacturahotel(
+    in _id_reserva int,
+    in _dias_hospedados int,
+    in _subtotal_hospedaje decimal(10,2),
+    in _subtotal_consumos decimal(10,2),
+    in _deposito_aplicado decimal(10,2),
+    in _total_factura decimal(10,2),
+    in _estado_pago varchar(20)
+)
+begin
+    -- se omite fecha_emision para que tome el current_timestamp por defecto
+    insert into factura_hotel(id_reserva, dias_hospedados, subtotal_hospedaje, subtotal_consumos, deposito_aplicado, total_factura, estado_pago)
+    values (_id_reserva, _dias_hospedados, _subtotal_hospedaje, _subtotal_consumos, _deposito_aplicado, _total_factura, _estado_pago);
+end $$
+
+create procedure sp_actualizarfacturahotel(
+    in _id_factura int,
+    in _id_reserva int,
+    in _dias_hospedados int,
+    in _subtotal_hospedaje decimal(10,2),
+    in _subtotal_consumos decimal(10,2),
+    in _deposito_aplicado decimal(10,2),
+    in _total_factura decimal(10,2),
+    in _estado_pago varchar(20)
+)
+begin
+    update factura_hotel
+    set id_reserva = _id_reserva,
+        dias_hospedados = _dias_hospedados,
+        subtotal_hospedaje = _subtotal_hospedaje,
+        subtotal_consumos = _subtotal_consumos,
+        deposito_aplicado = _deposito_aplicado,
+        total_factura = _total_factura,
+        estado_pago = _estado_pago
+    where id_factura = _id_factura;
+end $$
+
+create procedure sp_eliminarfacturahotel(
+    in _id_factura int
+)
+begin
+    delete from factura_hotel where id_factura = _id_factura;
+end $$
+
+delimiter ;
+
+-- =============================================================================
+-- vistas de consulta
+-- =============================================================================
+
+-- vista para listar tipos de habitacion
+create or replace view vw_lista_tipos_habitacion as
+select
+    id_tipo_habitacion as 'id tipo',
+    nombre_tipo as 'tipo de habitación',
+    descripcion as 'descripción',
+    capacidad_personas as 'capacidad',
+    tarifa_noche as 'tarifa por noche'
+from tipo_habitacion;
+
+-- vista para listar huespedes
+create or replace view vw_lista_huespedes as
+select
+    id_huesped as 'id huésped',
+    documento_identificacion as 'documento',
+    concat(nombre_huesped, ' ', apellido_huesped) as 'huésped',
+    telefono_huesped as 'teléfono',
+    correo_electronico as 'correo electrónico',
+    nacionalidad as 'nacionalidad'
+from huesped;
+
+-- vista para listar habitaciones (une con tipo_habitacion)
+create or replace view vw_lista_habitaciones as
+select
+    h.id_habitacion as 'id habitación',
+    h.numero_habitacion as 'número',
+    h.piso as 'piso',
+    t.nombre_tipo as 'tipo de habitación',
+    t.tarifa_noche as 'tarifa por noche',
+    h.estado_habitacion as 'estado'
+from habitacion h
+inner join tipo_habitacion t on h.id_tipo_habitacion = t.id_tipo_habitacion;
+
+-- vista para listar reservas (une con huesped y habitacion)
+create or replace view vw_lista_reservas as
+select
+    r.id_reserva as 'no. reserva',
+    concat(hu.nombre_huesped, ' ', hu.apellido_huesped) as 'huésped',
+    ha.numero_habitacion as 'habitación',
+    r.fecha_entrada as 'entrada',
+    r.fecha_salida as 'salida',
+    r.cantidad_huespedes as 'huéspedes',
+    r.tarifa_aplicada as 'tarifa aplicada',
+    r.deposito_previo as 'depósito previo',
+    r.deposito_pagado as 'depósito pagado',
+    r.fecha_checkin as 'check-in',
+    r.fecha_checkout as 'check-out',
+    r.estado_reserva as 'estado'
+from reserva r
+inner join huesped hu on r.id_huesped = hu.id_huesped
+inner join habitacion ha on r.id_habitacion = ha.id_habitacion;
+
+-- vista para listar consumos de servicio (une con reserva y huesped)
+create or replace view vw_lista_consumos as
+select
+    c.id_consumo as 'id consumo',
+    c.id_reserva as 'no. reserva',
+    concat(hu.nombre_huesped, ' ', hu.apellido_huesped) as 'huésped',
+    c.tipo_servicio as 'servicio',
+    c.descripcion as 'descripción',
+    c.cantidad as 'cantidad',
+    c.precio_unitario as 'precio unitario',
+    (c.cantidad * c.precio_unitario) as 'subtotal',
+    c.fecha_consumo as 'fecha/hora'
+from consumo_servicio c
+inner join reserva r on c.id_reserva = r.id_reserva
+inner join huesped hu on r.id_huesped = hu.id_huesped;
+
+-- vista para listar facturas del hotel (une con reserva, huesped y habitacion)
+create or replace view vw_lista_facturas as
+select
+    f.id_factura as 'no. factura',
+    f.fecha_emision as 'fecha de emisión',
+    concat(hu.nombre_huesped, ' ', hu.apellido_huesped) as 'huésped',
+    ha.numero_habitacion as 'habitación',
+    f.dias_hospedados as 'días hospedados',
+    f.subtotal_hospedaje as 'subtotal hospedaje',
+    f.subtotal_consumos as 'subtotal consumos',
+    f.deposito_aplicado as 'depósito aplicado',
+    f.total_factura as 'total',
+    f.estado_pago as 'estado de pago'
+from factura_hotel f
+inner join reserva r on f.id_reserva = r.id_reserva
+inner join huesped hu on r.id_huesped = hu.id_huesped
+inner join habitacion ha on r.id_habitacion = ha.id_habitacion;
