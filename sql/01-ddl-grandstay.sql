@@ -2,11 +2,7 @@ drop database if exists grandstay_in4cm;
 create database if not exists grandstay_in4cm;
 use grandstay_in4cm;
 
--- =============================================================================
--- creacion de tablas
--- =============================================================================
 
--- tipo_habitacion (tipos de suite y su tarifa base)
 create table tipo_habitacion(
     id_tipo_habitacion int primary key auto_increment,
     nombre_tipo varchar(60) not null,
@@ -18,7 +14,6 @@ create table tipo_habitacion(
     constraint ck_tarifa_noche check (tarifa_noche >= 0)
 );
 
--- habitacion
 create table habitacion(
     id_habitacion int primary key auto_increment,
     numero_habitacion varchar(10) not null,
@@ -40,7 +35,6 @@ create table huesped(
     constraint uq_documento_identificacion unique (documento_identificacion)
 );
 
--- reserva (incluye datos de check-in, check-out y deposito previo)
 create table reserva(
     id_reserva int primary key auto_increment,
     id_huesped int not null,
@@ -61,7 +55,6 @@ create table reserva(
     constraint ck_deposito_previo check (deposito_previo >= 0)
 );
 
--- consumo_servicio (consumos de minibar y otros servicios cargados a la reserva)
 create table consumo_servicio(
     id_consumo int primary key auto_increment,
     id_reserva int not null,
@@ -89,9 +82,7 @@ create table factura_hotel(
     constraint ck_dias_hospedados check (dias_hospedados > 0)
 );
 
--- =============================================================================
--- agregamos las relaciones a las tablas (llaves foraneas)
--- =============================================================================
+
 
 alter table habitacion
 add constraint fk_habitacion_tipo foreign key (id_tipo_habitacion)
@@ -121,9 +112,6 @@ add constraint fk_factura_reserva foreign key (id_reserva)
     on delete restrict
     on update cascade;
 
--- =============================================================================
--- indices para acelerar busquedas frecuentes
--- =============================================================================
 
 create index idx_habitacion_estado on habitacion(estado_habitacion);
 create index idx_habitacion_tipo on habitacion(id_tipo_habitacion);
@@ -140,13 +128,7 @@ create index idx_consumo_fecha on consumo_servicio(fecha_consumo);
 
 create index idx_factura_estado_pago on factura_hotel(estado_pago);
 
--- =============================================================================
--- stored procedures: crud
--- =============================================================================
 
--- =============================================================================
--- 1. crud: tipo_habitacion
--- =============================================================================
 delimiter $$
 
 create procedure sp_insertartipohabitacion(
@@ -185,9 +167,6 @@ end $$
 
 delimiter ;
 
--- =============================================================================
--- 2. crud: habitacion
--- =============================================================================
 delimiter $$
 
 create procedure sp_insertarhabitacion(
@@ -226,9 +205,6 @@ end $$
 
 delimiter ;
 
--- =============================================================================
--- 3. crud: huesped
--- =============================================================================
 delimiter $$
 
 create procedure sp_insertarhuesped(
@@ -273,9 +249,6 @@ end $$
 
 delimiter ;
 
--- =============================================================================
--- 4. crud: reserva
--- =============================================================================
 delimiter $$
 
 create procedure sp_insertarreserva(
