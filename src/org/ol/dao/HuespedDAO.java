@@ -4,10 +4,10 @@
  */
 package org.ol.dao;
 
-/**
- *
- * @author informatica
- */
-public interface HuespedDAO {
-    
+import java.util.List;
+import org.ol.model.Huesped;
+
+public interface HuespedDAO extends Crud<Huesped, Integer> {
+    Huesped buscarPorDocumento(String documentoIdentificacion);
+    List<Huesped> buscarPorApellido(String apellidoHuesped);
 }
