@@ -4,10 +4,9 @@
  */
 package org.ol.dao;
 
-/**
- *
- * @author informatica
- */
-public interface TipoHabitacionDAO {
-    
+
+import org.ol.model.TipoHabitacion;
+
+public interface TipoHabitacionDAO extends Crud<TipoHabitacion, Integer> {
+    TipoHabitacion buscarPorNombre(String nombreTipo);
 }

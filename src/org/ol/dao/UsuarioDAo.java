@@ -4,10 +4,13 @@
  */
 package org.ol.dao;
 
-/**
- *
- * @author informatica
- */
-public interface UsuarioDAo {
-    
+import java.util.List;
+import org.ol.model.Usuario;
+public interface UsuarioDAO extends Crud<Usuario, Integer> {
+    Usuario iniciarSesion(String username, String passwordHash);
+    Usuario buscarPorUsername(String username);
+    Usuario buscarPorEmail(String email);
+    boolean cambiarPassword(int idUsuario, String passwordHash);
+    boolean desactivarUsuario(int idUsuario);
+    List<Usuario> listarActivos();
 }
