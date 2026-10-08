@@ -6,7 +6,7 @@ package org.ol.dao;
 
 /**
  *
- * @author informatica
+ * @author ioctavio 
  */
 public interface Dao<T, K> extends Crud<T, K> {
 
