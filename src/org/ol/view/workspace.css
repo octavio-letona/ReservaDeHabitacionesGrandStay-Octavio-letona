@@ -1,0 +1,13 @@
+.workspace { -fx-background-color: #f3f6fa; }
+.page-title { -fx-font-size: 23px; -fx-font-weight: bold; -fx-text-fill: #1b3552; }
+.page-subtitle { -fx-font-size: 12px; -fx-text-fill: #78889d; }
+.search-field { -fx-pref-height: 36; -fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #d7e0ea; -fx-background-color: white; -fx-padding: 0 10; }
+.primary-button,.secondary-button,.danger-button { -fx-pref-height: 36; -fx-background-radius: 6; -fx-padding: 0 14; -fx-cursor: hand; -fx-font-weight: bold; }
+.primary-button { -fx-background-color: #1768a8; -fx-text-fill: white; }
+.secondary-button { -fx-background-color: white; -fx-border-color: #d3dce8; -fx-border-radius: 6; -fx-text-fill: #34475e; }
+.danger-button { -fx-background-color: #fff1f0; -fx-text-fill: #b42318; }
+.data-table { -fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e1e7ef; -fx-border-radius: 8; }
+.data-table .column-header-background { -fx-background-color: #f7f9fc; }
+.data-table .column-header .label { -fx-text-fill: #53677f; -fx-font-size: 11px; -fx-font-weight: bold; }
+.feedback { -fx-padding: 0 0 0 8; -fx-text-fill: #276749; }
+.validation-error { -fx-border-color: #c53030; -fx-border-radius: 5; }
