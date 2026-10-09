@@ -10,11 +10,10 @@
            fx:controller="org.ol.controller.LoginController" styleClass="login-root">
     <stylesheets><URL value="@login.css"/></stylesheets>
     <children>
-        <VBox alignment="CENTER" maxWidth="440" spacing="16" styleClass="login-card">
-            <padding><Insets top="38" right="42" bottom="38" left="42"/></padding>
+        <VBox alignment="CENTER" maxWidth="380" maxHeight="500" spacing="12" styleClass="login-card">
+            <padding><Insets top="28" right="32" bottom="28" left="32"/></padding>
             <Label text="GRANDSTAY" styleClass="brand"/>
             <Label text="Gestión hotelera" styleClass="login-subtitle"/>
-            <Region prefHeight="10"/>
             <Label text="Iniciar sesión" styleClass="login-title"/>
             <VBox spacing="7">
                 <Label text="Usuario" styleClass="field-label"/>
