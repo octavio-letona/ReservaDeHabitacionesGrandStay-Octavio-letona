@@ -275,7 +275,14 @@ public class WorkspaceController {
         Label error = new Label(); error.setWrapText(true); error.getStyleClass().add("error-message");
         Button save = new Button(existing == null ? "Crear" : "Guardar cambios");
         save.getStyleClass().add("primary-button");
-        HBox actions = new HBox(10, save);
+        HBox actions = new HBox(10);
+        if (existing == null) {
+            Button clear = new Button("Limpiar campos");
+            clear.getStyleClass().add("secondary-button");
+            clear.setOnAction(event -> clearInputs(controls));
+            actions.getChildren().add(clear);
+        }
+        actions.getChildren().add(save);
         VBox content = new VBox(12, form, error, actions);
         content.setPadding(new Insets(8));
         dialog.getDialogPane().setContent(content);
@@ -308,6 +315,14 @@ public class WorkspaceController {
             }
         });
         dialog.showAndWait();
+    }
+
+    private void clearInputs(List<Object> controls) {
+        for (Object control : controls) {
+            if (control instanceof CheckBox check) check.setSelected(false);
+            else if (control instanceof ChoiceBox<?> choice) choice.setValue(null);
+            else if (control instanceof TextInputControl text) text.clear();
+        }
     }
 
     private javafx.scene.control.Control makeControl(FieldSpec spec, Object existing) {
