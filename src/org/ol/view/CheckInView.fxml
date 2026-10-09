@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.ol.controller.CheckInController" spacing="16" styleClass="checkout-root">
+    <stylesheets><URL value="@checkin.css"/></stylesheets>
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <VBox spacing="4">
+            <Label text="Check-in de huésped" styleClass="page-title"/>
+            <Label text="Valida el depósito, registra la entrada y marca la habitación como ocupada." styleClass="page-subtitle"/>
+        </VBox>
+    </HBox>
+    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="search-panel">
+        <Label text="ID de reserva" styleClass="field-label"/>
+        <TextField fx:id="reservationIdField" promptText="Ej. 8" onAction="#lookupReservation" prefWidth="180"/>
+        <Button text="Consultar reserva" onAction="#lookupReservation" styleClass="secondary-button"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="checkInButton" text="✔  Confirmar check-in" onAction="#confirmCheckIn" styleClass="primary-button"/>
+    </HBox>
+    <Label fx:id="feedbackLabel" styleClass="feedback" wrapText="true"/>
+    <GridPane hgap="20" vgap="12" styleClass="booking-card">
+        <padding><Insets top="16" right="18" bottom="16" left="18"/></padding>
+        <!-- Row 0 -->
+        <Label text="Huésped" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="summary-caption"/>
+        <Label fx:id="guestLabel" text="—" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="summary-value"/>
+        <Label text="Habitación" GridPane.columnIndex="2" GridPane.rowIndex="0" styleClass="summary-caption"/>
+        <Label fx:id="roomLabel" text="—" GridPane.columnIndex="3" GridPane.rowIndex="0" styleClass="summary-value"/>
+        <!-- Row 1 -->
+        <Label text="Fechas" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="summary-caption"/>
+        <Label fx:id="datesLabel" text="—" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="summary-value"/>
+        <Label text="Tarifa" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="summary-caption"/>
+        <Label fx:id="rateLabel" text="—" GridPane.columnIndex="3" GridPane.rowIndex="1" styleClass="summary-value"/>
+        <!-- Row 2 -->
+        <Label text="Huéspedes" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="summary-caption"/>
+        <Label fx:id="guestsLabel" text="—" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="summary-value"/>
+        <Label text="Estado" GridPane.columnIndex="2" GridPane.rowIndex="2" styleClass="summary-caption"/>
+        <Label fx:id="statusLabel" text="—" GridPane.columnIndex="3" GridPane.rowIndex="2" styleClass="summary-value"/>
+        <!-- Row 3 -->
+        <Label text="Depósito previo" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="summary-caption"/>
+        <Label fx:id="depositLabel" text="—" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.columnSpan="3" styleClass="summary-value"/>
+    </GridPane>
+    <Label text="Requisito de check-in" styleClass="section-title"/>
+    <VBox styleClass="requirement-box" spacing="8">
+        <padding><Insets top="12" right="16" bottom="12" left="16"/></padding>
+        <Label text="Para registrar el check-in se requiere:" styleClass="req-title"/>
+        <Label text="• La reserva debe estar en estado «confirmada» o «pendiente»." styleClass="req-item"/>
+        <Label text="• El depósito previo debe estar marcado como pagado." styleClass="req-item"/>
+        <Label text="• Al confirmar, la habitación pasará automáticamente a estado «ocupada»." styleClass="req-item"/>
+    </VBox>
+    <padding><Insets top="8" right="8" bottom="8" left="8"/></padding>
+</VBox>

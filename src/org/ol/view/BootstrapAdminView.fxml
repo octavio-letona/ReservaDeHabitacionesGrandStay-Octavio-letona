@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.ol.controller.BootstrapAdminController" alignment="CENTER" spacing="12" styleClass="bootstrap-root">
+    <stylesheets><URL value="@login.css"/></stylesheets>
+    <VBox maxWidth="500" spacing="12" styleClass="login-card">
+        <padding><Insets top="30" right="36" bottom="30" left="36"/></padding>
+        <Label text="Primer administrador" styleClass="login-title"/>
+        <Label text="Este paso solo está disponible mientras no exista ningún usuario." wrapText="true" styleClass="helper-text"/>
+        <TextField fx:id="usernameField" promptText="Usuario" styleClass="input"/>
+        <TextField fx:id="emailField" promptText="Correo electrónico" styleClass="input"/>
+        <TextField fx:id="firstNameField" promptText="Nombre" styleClass="input"/>
+        <TextField fx:id="lastNameField" promptText="Apellido" styleClass="input"/>
+        <PasswordField fx:id="passwordField" promptText="Contraseña (mínimo 8 caracteres)" styleClass="input"/>
+        <PasswordField fx:id="confirmPasswordField" promptText="Confirmar contraseña" styleClass="input"/>
+        <Label fx:id="messageLabel" wrapText="true" styleClass="error-message"/>
+        <Button text="Crear administrador" onAction="#createAdmin" defaultButton="true" maxWidth="Infinity" styleClass="primary-button"/>
+        <Button text="Volver al login" onAction="#back" maxWidth="Infinity" styleClass="secondary-button"/>
+    </VBox>
+</VBox>

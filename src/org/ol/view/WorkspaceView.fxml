@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.ol.controller.WorkspaceController" spacing="16" styleClass="workspace">
+    <stylesheets><URL value="@workspace.css"/></stylesheets>
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <VBox spacing="4"><Label fx:id="titleLabel" styleClass="page-title"/><Label fx:id="subtitleLabel" styleClass="page-subtitle"/></VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="searchField" promptText="Buscar en la tabla..." prefWidth="240" styleClass="search-field"/>
+        <Button text="Actualizar" onAction="#reload" styleClass="secondary-button"/>
+    </HBox>
+    <HBox spacing="8">
+        <Button fx:id="createButton" text="＋ Nuevo" onAction="#create" styleClass="primary-button"/>
+        <Button fx:id="editButton" text="Editar" onAction="#edit" styleClass="secondary-button"/>
+        <Button fx:id="deleteButton" text="Eliminar" onAction="#delete" styleClass="danger-button"/>
+        <Label fx:id="feedbackLabel" styleClass="feedback"/>
+    </HBox>
+    <TableView fx:id="table" VBox.vgrow="ALWAYS" styleClass="data-table"/>
+    <padding><Insets top="8" right="8" bottom="8" left="8"/></padding>
+</VBox>
