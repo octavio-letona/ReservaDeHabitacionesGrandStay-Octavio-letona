@@ -2,6 +2,20 @@ drop database if exists grandstay_in4cm;
 create database if not exists grandstay_in4cm;
 use grandstay_in4cm;
 
+create table usuario(
+    id_usuario int primary key auto_increment,
+    username varchar(50) not null,
+    email varchar(100) not null,
+    first_name varchar(100) not null,
+    last_name varchar(100) not null,
+    password_hash varchar(255) not null,
+    rol varchar(30) not null,
+    activo boolean not null default true,
+    fecha_creacion timestamp not null default current_timestamp,
+    constraint uq_usuario_username unique (username),
+    constraint uq_usuario_email unique (email)
+);
+
 
 create table tipo_habitacion(
     id_tipo_habitacion int primary key auto_increment,
@@ -399,6 +413,64 @@ create procedure sp_eliminarfacturahotel(
 )
 begin
     delete from factura_hotel where id_factura = _id_factura;
+end $$
+
+delimiter ;
+
+-- =============================================================================
+-- crud: usuario
+-- =============================================================================
+delimiter $$
+
+create procedure sp_insertarusuario(
+    in _username varchar(50),
+    in _email varchar(100),
+    in _first_name varchar(100),
+    in _last_name varchar(100),
+    in _password_hash varchar(255),
+    in _rol varchar(30),
+    in _activo boolean
+)
+begin
+    insert into usuario(username, email, first_name, last_name, password_hash, rol, activo)
+    values (_username, _email, _first_name, _last_name, _password_hash, _rol, _activo);
+end $$
+
+create procedure sp_actualizarusuario(
+    in _id_usuario int,
+    in _username varchar(50),
+    in _email varchar(100),
+    in _first_name varchar(100),
+    in _last_name varchar(100),
+    in _password_hash varchar(255),
+    in _rol varchar(30),
+    in _activo boolean
+)
+begin
+    update usuario
+    set username = _username,
+        email = _email,
+        first_name = _first_name,
+        last_name = _last_name,
+        password_hash = _password_hash,
+        rol = _rol,
+        activo = _activo
+    where id_usuario = _id_usuario;
+end $$
+
+create procedure sp_eliminarusuario(in _id_usuario int)
+begin
+    delete from usuario where id_usuario = _id_usuario;
+end $$
+
+create procedure sp_cambiarpasswordusuario(in _id_usuario int, in _password_hash varchar(255))
+begin
+    update usuario set password_hash = _password_hash where id_usuario = _id_usuario;
+end $$
+
+create procedure sp_desactivarusuario(in _id_usuario int)
+begin
+    update usuario set activo = false where id_usuario = _id_usuario and activo = true;
 end $$
 
 delimiter ;
