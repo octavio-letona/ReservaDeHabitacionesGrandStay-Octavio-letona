@@ -44,6 +44,7 @@ public class DashboardController implements Initializable {
         titles.put(Module.CONSUMOS, "Consumos de servicio");
         titles.put(Module.FACTURAS, "Facturas");
         titles.put(Module.USUARIOS, "Usuarios");
+        titles.put(Module.CHECKIN, "Check-in / entrada");
         titles.put(Module.CHECKOUT, "Checkout / salida");
         buildMenu(user.getRol());
     }
@@ -67,10 +68,15 @@ public class DashboardController implements Initializable {
         }
         try {
             boolean checkout = module == Module.CHECKOUT;
-            String viewPath = checkout ? "/org/ol/view/CheckoutView.fxml" : "/org/ol/view/WorkspaceView.fxml";
+            boolean checkin  = module == Module.CHECKIN;
+            String viewPath;
+            if (checkin)       viewPath = "/org/ol/view/CheckInView.fxml";
+            else if (checkout) viewPath = "/org/ol/view/CheckoutView.fxml";
+            else               viewPath = "/org/ol/view/WorkspaceView.fxml";
+
             FXMLLoader loader = new FXMLLoader(Main.class.getResource(viewPath));
             Node view = loader.load();
-            if (!checkout) {
+            if (!checkout && !checkin) {
                 WorkspaceController controller = loader.getController();
                 controller.configure(module, title, "AUDITOR".equalsIgnoreCase(user.getRol().trim()));
             }

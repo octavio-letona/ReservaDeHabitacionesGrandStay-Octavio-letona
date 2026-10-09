@@ -1,4 +1,15 @@
-use grandstay_prueba;
+use grandstay_in4cm;
+
+-- =============================================================================
+-- usuarios semilla (se insertan con la contraseña en texto plano)
+-- La aplicación (UsuarioDAOImpl.iniciarSesion) se encargará de hashearlas 
+-- la primera vez que inicien sesión.
+-- =============================================================================
+insert into usuario(username, email, first_name, last_name, password_hash, rol, activo) values
+('admin',       'admin@grandstay.com',    'Administrador', 'GrandStay', 'Admin1234!', 'administrador', true),
+('recepcion01', 'recep@grandstay.com',    'Recepción',     'GrandStay', 'Recep1234!', 'recepcionista', true),
+('housekeep01', 'housekeep@grandstay.com','Housekeeping',  'GrandStay', 'House1234!', 'housekeeping',  true);
+
 
 insert into tipo_habitacion(nombre_tipo, descripcion, capacidad_personas, tarifa_noche) values
 ('suite sencilla', 'cama individual, escritorio y baño privado', 1, 450.00),

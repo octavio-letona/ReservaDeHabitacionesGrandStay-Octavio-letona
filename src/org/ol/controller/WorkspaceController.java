@@ -159,7 +159,7 @@ public class WorkspaceController {
                 fields = List.of(id("id", "ID"), text("username", "Usuario", true), text("email", "Correo", true),
                         text("firstName", "Nombre", true), text("lastName", "Apellido", true),
                         new FieldSpec("passwordHash", "Contraseña (vacío = conservar)", InputKind.PASSWORD, false, true),
-                        choice("rol", "Rol", true, "administrador", "recepcionista", "cajero", "auditor"),
+                        choice("rol", "Rol", true, "administrador", "recepcionista", "cajero", "auditor", "housekeeping"),
                         bool("activo", "Activo", true),
                         new FieldSpec("fechaCreacion", "Creado", InputKind.TEXT, true, false));
             }

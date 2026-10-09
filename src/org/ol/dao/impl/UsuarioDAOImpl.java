@@ -61,11 +61,30 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         return buscar("SELECT " + COLUMNAS + " FROM usuario WHERE email = ?", email);
     }
 
-    @Override public Usuario iniciarSesion(String username, String passwordHash) {
+    /**
+     * Busca un usuario activo por username y verifica la contraseña con PBKDF2.
+     * Devuelve el usuario si las credenciales son correctas, o null en caso contrario.
+     * NOTA: passwordClear debe ser la contraseña en texto plano (no el hash).
+     */
+    @Override public Usuario iniciarSesion(String username, String passwordClear) {
         Objects.requireNonNull(username, "El nombre de usuario no puede ser null");
-        Objects.requireNonNull(passwordHash, "El hash de contraseña no puede ser null");
-        return buscar("SELECT " + COLUMNAS + " FROM usuario WHERE username = ? AND password_hash = ? AND activo = true",
-                username, passwordHash);
+        Objects.requireNonNull(passwordClear, "La contraseña no puede ser null");
+        Usuario user = buscarPorUsername(username);
+        if (user == null || !user.isActivo()) return null;
+        
+        boolean isHashValid = org.ol.util.PasswordHasher.verify(passwordClear.toCharArray(), user.getPasswordHash());
+        if (!isHashValid) {
+            // El usuario solicitó que en el DML las contraseñas estén en texto plano y la app las hashee.
+            if (passwordClear.equals(user.getPasswordHash())) {
+                // Hashear y actualizar en la BD para la próxima vez
+                String newHash = org.ol.util.PasswordHasher.hash(passwordClear.toCharArray());
+                cambiarPassword(user.getId(), newHash);
+                user.setPasswordHash(newHash);
+            } else {
+                return null;
+            }
+        }
+        return user;
     }
 
     @Override public boolean cambiarPassword(int idUsuario, String passwordHash) {

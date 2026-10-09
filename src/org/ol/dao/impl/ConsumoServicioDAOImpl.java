@@ -24,6 +24,9 @@ public class ConsumoServicioDAOImpl implements ConsumoServicioDAO {
     private static final String LISTAR_TODOS =
             "SELECT id_consumo, id_reserva, tipo_servicio, descripcion, cantidad, "
             + "precio_unitario, fecha_consumo FROM consumo_servicio ORDER BY id_consumo";
+    private static final String LISTAR_POR_RESERVA =
+            "SELECT id_consumo, id_reserva, tipo_servicio, descripcion, cantidad, "
+            + "precio_unitario, fecha_consumo FROM consumo_servicio WHERE id_reserva = ? ORDER BY id_consumo";
 
     @Override
     public boolean crear(ConsumoServicio consumo) {
@@ -98,6 +101,23 @@ public class ConsumoServicioDAOImpl implements ConsumoServicioDAO {
             return consumos;
         } catch (SQLException e) {
             throw new DBException("No se pudieron listar los consumos de servicio", e);
+        }
+    }
+
+    @Override
+    public java.util.List<ConsumoServicio> listarPorReserva(int idReserva) {
+        ArrayList<ConsumoServicio> consumos = new ArrayList<>();
+        try (Connection connection = Conexion.getInstancia().conectar();
+                PreparedStatement statement = connection.prepareStatement(LISTAR_POR_RESERVA)) {
+            statement.setInt(1, idReserva);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    consumos.add(mapear(resultSet));
+                }
+            }
+            return consumos;
+        } catch (SQLException e) {
+            throw new DBException("No se pudieron listar los consumos de la reserva " + idReserva, e);
         }
     }
 

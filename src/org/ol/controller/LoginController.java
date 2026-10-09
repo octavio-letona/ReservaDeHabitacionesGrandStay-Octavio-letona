@@ -43,8 +43,9 @@ public class LoginController implements Initializable {
             return;
         }
         try {
-            Usuario user = usuarioDAO.buscarPorUsername(username);
-            if (user == null || !user.isActivo() || !PasswordHasher.verify(password, user.getPasswordHash())) {
+            // Usamos el método iniciarSesion del DAO para aprovechar el auto-hasheo
+            Usuario user = usuarioDAO.iniciarSesion(username, new String(password));
+            if (user == null) {
                 messageLabel.setText("Usuario o contraseña incorrectos.");
                 passwordField.clear();
                 return;

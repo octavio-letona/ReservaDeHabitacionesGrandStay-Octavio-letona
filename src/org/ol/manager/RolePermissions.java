@@ -7,7 +7,7 @@ import java.util.Set;
 
 /** Central role policy for navigation and access to hotel modules. */
 public final class RolePermissions {
-    public enum Module { DASHBOARD, TIPOS_HABITACION, HABITACIONES, HUESPEDES, RESERVAS, CONSUMOS, FACTURAS, USUARIOS, CHECKOUT }
+    public enum Module { DASHBOARD, TIPOS_HABITACION, HABITACIONES, HUESPEDES, RESERVAS, CONSUMOS, FACTURAS, USUARIOS, CHECKIN, CHECKOUT }
 
     private RolePermissions() { }
 
@@ -18,14 +18,19 @@ public final class RolePermissions {
         }
         if (normalized.equals("RECEPCIONISTA") || normalized.equals("RECEPCION")) {
             return EnumSet.of(Module.DASHBOARD, Module.TIPOS_HABITACION, Module.HABITACIONES,
-                    Module.HUESPEDES, Module.RESERVAS, Module.CONSUMOS, Module.FACTURAS, Module.CHECKOUT);
+                    Module.HUESPEDES, Module.RESERVAS, Module.CONSUMOS, Module.FACTURAS,
+                    Module.CHECKIN, Module.CHECKOUT);
         }
         if (normalized.equals("CAJERO") || normalized.equals("CONTADOR")) {
-            return EnumSet.of(Module.DASHBOARD, Module.RESERVAS, Module.CONSUMOS, Module.FACTURAS, Module.CHECKOUT);
+            return EnumSet.of(Module.DASHBOARD, Module.RESERVAS, Module.CONSUMOS, Module.FACTURAS,
+                    Module.CHECKIN, Module.CHECKOUT);
         }
         if (normalized.equals("AUDITOR")) {
             return EnumSet.of(Module.DASHBOARD, Module.TIPOS_HABITACION, Module.HABITACIONES,
                     Module.HUESPEDES, Module.RESERVAS, Module.CONSUMOS, Module.FACTURAS);
+        }
+        if (normalized.equals("HOUSEKEEPING")) {
+            return EnumSet.of(Module.DASHBOARD, Module.HABITACIONES);
         }
         return EnumSet.noneOf(Module.class);
     }

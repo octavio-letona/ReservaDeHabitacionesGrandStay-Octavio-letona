@@ -3,7 +3,6 @@ package org.ol.controller;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -94,10 +93,7 @@ public class CheckoutController implements Initializable {
             depositLabel.setText(currentReservation.isDepositoPagado()
                     ? "Pagado: " + money(currentReservation.getDepositoPrevio()) : "Sin depósito pagado");
 
-            List<ConsumoServicio> matching = new ArrayList<>();
-            for (ConsumoServicio item : consumoDAO.listarTodos()) {
-                if (item.getIdReserva() == id) matching.add(item);
-            }
+            List<ConsumoServicio> matching = consumoDAO.listarPorReserva(id);
             consumptions.setAll(matching);
             renderPreview(matching);
             boolean canCheckout = "check_in".equalsIgnoreCase(currentReservation.getEstadoReserva());
