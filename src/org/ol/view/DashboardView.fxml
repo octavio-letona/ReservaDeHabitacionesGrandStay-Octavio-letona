@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.ol.controller.DashboardController" styleClass="dashboard-root">
+    <stylesheets><URL value="@dashboard.css"/></stylesheets>
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="topbar">
+            <padding><Insets left="24" right="24" top="12" bottom="12"/></padding>
+            <VBox spacing="2"><Label text="GRANDSTAY" styleClass="top-brand"/><Label text="Gestión hotelera" styleClass="top-subtitle"/></VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <VBox alignment="CENTER_RIGHT" spacing="2"><Label fx:id="userLabel" styleClass="user-name"/><Label fx:id="roleLabel" styleClass="role-name"/></VBox>
+            <Button text="Cerrar sesión" onAction="#logout" styleClass="logout-button"/>
+        </HBox>
+    </top>
+    <left>
+        <VBox fx:id="navigation" spacing="6" prefWidth="228" styleClass="sidebar">
+            <padding><Insets top="22" right="14" bottom="18" left="14"/></padding>
+            <Label text="MENÚ PRINCIPAL" styleClass="section-caption"/>
+        </VBox>
+    </left>
+    <center>
+        <StackPane fx:id="contentPane" styleClass="content-area">
+            <VBox alignment="CENTER_LEFT" spacing="10" styleClass="welcome-panel">
+                <Label text="Bienvenido a GrandStay" styleClass="welcome-title"/>
+                <Label text="Selecciona una sección del menú para comenzar." styleClass="welcome-subtitle"/>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>
