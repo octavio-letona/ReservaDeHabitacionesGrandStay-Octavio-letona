@@ -44,6 +44,7 @@ public class DashboardController implements Initializable {
         titles.put(Module.CONSUMOS, "Consumos de servicio");
         titles.put(Module.FACTURAS, "Facturas");
         titles.put(Module.USUARIOS, "Usuarios");
+        titles.put(Module.CHECKOUT, "Checkout / salida");
         buildMenu(user.getRol());
     }
 
@@ -65,10 +66,14 @@ public class DashboardController implements Initializable {
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/org/ol/view/WorkspaceView.fxml"));
+            boolean checkout = module == Module.CHECKOUT;
+            String viewPath = checkout ? "/org/ol/view/CheckoutView.fxml" : "/org/ol/view/WorkspaceView.fxml";
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource(viewPath));
             Node view = loader.load();
-            WorkspaceController controller = loader.getController();
-            controller.configure(module, title, "AUDITOR".equalsIgnoreCase(user.getRol().trim()));
+            if (!checkout) {
+                WorkspaceController controller = loader.getController();
+                controller.configure(module, title, "AUDITOR".equalsIgnoreCase(user.getRol().trim()));
+            }
             contentPane.getChildren().setAll(view);
         } catch (IOException | RuntimeException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la sección: " + e.getMessage());
